@@ -1,0 +1,9 @@
+GEM
+  specs:
+    cinch (2.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cinch
