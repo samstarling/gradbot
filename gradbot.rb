@@ -5,16 +5,14 @@ require_relative 'plugins/thegrads.rb'
 
 bot = Cinch::Bot.new do
   configure do |c|
-    c.server = 'irc.freenode.net'
-    c.port = '6667'
+    c.server = 'irc.dev.bbc.co.uk'
+    c.port = '6697'
     c.nick = 'gradbot'
     c.channels = ['#samstarling']
     c.plugins.plugins = [TubeStatus, Karma, TheGrads]
-    #c.port = '6697'
-    #c.server = 'irc.dev.bbc.co.uk'
-    #c.ssl.use = true
-    #c.ssl.verify = false
-    #c.ssl.client_cert = '/Users/samstarling/certificate.pem'
+    c.ssl.use = true
+    c.ssl.verify = false
+    c.ssl.client_cert = '/home/samstarling/apps/gradbot/certificate.pem'
   end
 end
 
