@@ -1,6 +1,7 @@
 require 'cinch'
 require_relative 'plugins/tube.rb'
 require_relative 'plugins/karma.rb'
+require_relative 'plugins/thegrads.rb'
 
 bot = Cinch::Bot.new do
   configure do |c|
@@ -8,7 +9,7 @@ bot = Cinch::Bot.new do
     c.port = '6667'
     c.nick = 'gradbot'
     c.channels = ['#samstarling']
-    c.plugins.plugins = [TubeStatus, Karma]
+    c.plugins.plugins = [TubeStatus, Karma, TheGrads]
     #c.port = '6697'
     #c.server = 'irc.dev.bbc.co.uk'
     #c.ssl.use = true
