@@ -8,7 +8,7 @@ class TubeStatus
   match /tube/
   
   def execute(m)
-    RestClient.proxy = 'http://www-cache.reith.bbc.co.uk:80/'
+    #RestClient.proxy = 'http://www-cache.reith.bbc.co.uk:80/'
     response = JSON.parse(RestClient.get 'http://api.tubeupdates.com/?method=get.status&lines=central,circle,hammersmithcity')
     parsed = response['response']
     if response['response']['lines']
@@ -20,5 +20,3 @@ class TubeStatus
     end
   end
 end
-
-
