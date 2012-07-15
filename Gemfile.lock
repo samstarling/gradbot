@@ -3,6 +3,9 @@ GEM
   specs:
     cinch (2.0.2)
     daemons (1.1.8)
+    mime-types (1.19)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
 
 PLATFORMS
   ruby
@@ -10,3 +13,4 @@ PLATFORMS
 DEPENDENCIES
   cinch
   daemons
+  rest-client
