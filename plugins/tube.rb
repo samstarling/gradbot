@@ -20,5 +20,3 @@ class TubeStatus
     end
   end
 end
-
-
