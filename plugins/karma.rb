@@ -4,6 +4,8 @@ require 'json'
 
 class Karma
   include Cinch::Plugin
+  
+  @@filepath = '/home/samstarling/temp/karma.marshal'
 
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
@@ -25,21 +27,21 @@ class Karma
   end
 
   def load_hash
-    if File.exists?('karma')
-      File.open('karma') do |f|
+    if File.exists?(@@filepath)
+      File.open(@@filepath) do |f|
         @karma = Marshal.load(f)
       end
     else
       @karma = Hash.new
-      File.new('karma', 'w')
-      File.open('karma', 'w+') do |f|
+      File.new(@@filepath, 'w')
+      File.open(@@filepath, 'w+') do |f|
         Marshal.dump(@karma, f)
       end
     end
   end
 
   def save_hash
-    File.open('karma', 'w+') do |f|
+    File.open(@@filepath, 'w+') do |f|
       Marshal.dump(@karma, f)
     end
   end
