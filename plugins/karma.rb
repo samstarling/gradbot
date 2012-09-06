@@ -10,6 +10,15 @@ class Karma
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
 
+  match /karma/
+  
+  def execute(m)
+    load_hash
+    @karma.each do |k, v|
+      m.reply "#{k} has #{v} karma"
+    end
+  end
+  
   def add_karma(m, arg)
     load_hash
     @karma[arg.to_sym] ||= 0
