@@ -6,8 +6,8 @@ class LunchRoulette
   match /lunchroulette (.+)/
 
   @@VENUES = {
-    "w12" => ["Leon", "Pret", "Kaffiene", "Boots"],
-    "w1" => ["Canteen", "Tesco", "Davy's", "Gourmet Burger Kitchen", "Busaba Eathai"],
+    "w1" => ["Leon", "Pret", "Kaffiene", "Boots"],
+    "w12" => ["Canteen", "Tesco", "Davy's", "Gourmet Burger Kitchen", "Busaba Eathai"],
     "salford" => ["Canteen", "Wagamama", "Booths", "you must go swimming in the canal instead of lunch"]
   }
   
