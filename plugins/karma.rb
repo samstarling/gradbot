@@ -28,7 +28,8 @@ class Karma
     load_hash
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] += 1
-    m.reply "Gave more karma to \"#{arg}\". New karma: #{val}"
+    noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
+    m.reply "#{noise}! #{m.user.nick} gave more karma to \"#{arg}\". New karma: #{val}"
     save_hash
   end
 
@@ -36,7 +37,8 @@ class Karma
     load_hash
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] -= 1
-    m.reply "Took karma away from \"#{arg}\". New karma: #{val}."
+    noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
+    m.reply "#{noise}. #{m.user.nick} took karma away from \"#{arg}\". New karma: #{val}."
     save_hash
   end
 
