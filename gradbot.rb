@@ -3,6 +3,7 @@ require_relative 'plugins/tube.rb'
 require_relative 'plugins/karma.rb'
 require_relative 'plugins/thegrads.rb'
 require_relative 'plugins/cat.rb'
+require_relative 'plugins/lunchroulette.rb'
 
 bot = Cinch::Bot.new do
   configure do |c|
@@ -10,7 +11,7 @@ bot = Cinch::Bot.new do
     c.port = '6697'
     c.nick = 'gradbot'
     c.channels = ['#thegrads']
-    c.plugins.plugins = [TubeStatus, Karma, TheGrads, Cat]
+    c.plugins.plugins = [TubeStatus, Karma, TheGrads, Cat, LunchRoulette]
     c.ssl.use = true
     c.ssl.verify = false
     c.ssl.client_cert = '/home/samstarling/apps/gradbot/certificate.pem'
