@@ -5,17 +5,22 @@ require 'json'
 class Karma
   include Cinch::Plugin
   
+  attr_reader :karma
+  
   @@filepath = '/home/samstarling/temp/karma.marshal'
 
+  match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
-
-  match /karma/
+  listen_to :connect
   
   def execute(m)
     load_hash
+    @karma.sort_by {|key, value| value}
     @karma.each do |k, v|
-      m.reply "#{k} has #{v} karma"
+      if v != 0
+        m.reply "#{k} has #{v} karma"
+      end
     end
   end
   
