@@ -2,7 +2,6 @@ require_relative '../plugins/lunchroulette.rb'
 require 'rest-client'
 
 describe LunchRoulette do
-  
   before(:each) do
     config = double('config').as_null_object
     @lunch = LunchRoulette.new(config)
@@ -16,5 +15,4 @@ describe LunchRoulette do
     @message.should_receive(:reply)
     @lunch.execute(@message, 'w12')
   end
-
 end

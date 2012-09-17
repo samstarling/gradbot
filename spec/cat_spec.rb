@@ -2,7 +2,6 @@ require_relative '../plugins/cat.rb'
 require 'rest-client'
 
 describe Cat do
-  
   before(:each) do
     config = double('config').as_null_object
     @cat = Cat.new(config)
@@ -25,5 +24,4 @@ describe Cat do
     @message.should_not_receive(:reply)
     @cat.execute(@message)
   end
-  
 end

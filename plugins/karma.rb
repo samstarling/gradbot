@@ -7,7 +7,7 @@ class Karma
   
   attr_reader :karma
   
-  @@filepath = '/home/samstarling/temp/karma.marshal'
+  @@filepath = ENV['karma_file'] || '/home/samstarling/temp/karma.marshal'
   
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
@@ -24,7 +24,13 @@ class Karma
     end
   end
   
+  def reset_karma
+    @karma = Hash.new
+    save_hash
+  end
+  
   def add_karma(m, arg)
+    arg.downcase!
     load_hash
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] += 1
@@ -34,6 +40,7 @@ class Karma
   end
 
   def remove_karma(m, arg)
+    arg.downcase!
     load_hash
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] -= 1
