@@ -8,7 +8,7 @@ class Karma
   attr_reader :karma
   
   @@filepath = '/home/samstarling/temp/karma.marshal'
-
+  
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false

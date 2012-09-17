@@ -2,9 +2,9 @@ require 'cinch'
 
 class LunchRoulette
   include Cinch::Plugin
-
+  
   match /lunchroulette (.+)/
-
+  
   @@VENUES = {
     "w1" => ["Leon", "Pret", "Eat", "Kaffiene", "Boots", "the pub"],
     "w12" => ["the canteen", "Tesco", "Davy's", "Gourmet Burger Kitchen", "Busaba Eathai", "the pub"],

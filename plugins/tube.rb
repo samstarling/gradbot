@@ -5,7 +5,7 @@ require 'htmlentities'
 
 class TubeStatus
   include Cinch::Plugin
-
+  
   match /tube/
   
   def execute(m)
