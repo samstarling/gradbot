@@ -43,4 +43,11 @@ describe Karma do
     @karma.add_karma(@message, 'CATS')
     @karma.karma[:cats].should == 2
   end
+
+  it "conflates things with the same karma score" do
+    @karma.add_karma(@message, 'cats')
+    @karma.add_karma(@message, 'dogs')
+    @message.should_receive(:reply).with('cats and dogs have 1 karma')
+    @karma.execute(@message)
+  end
 end
