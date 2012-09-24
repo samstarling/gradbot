@@ -1,18 +1,29 @@
-require_relative '../plugins/lunchroulette.rb'
-require 'rest-client'
+require_relative '../plugins/lunchroulette'
+require 'spec_helper'
 
 describe LunchRoulette do
   before(:each) do
-    config = double('config').as_null_object
-    @lunch = LunchRoulette.new(config)
-    @message = double('message')
-    user = double('user')
-    user.stub(:nick).and_return('Boris')
-    @message.stub(:user).and_return(user)
+    @config = double('config').as_null_object
+    @message = double('message').as_null_object
+    @plugin = LunchRoulette.new(@config)
+    @harness = TestHarness.new(@plugin)
   end
-
-  it "should pick a venue" do
+  
+  it "should match lunch messages" do
+    @harness.match?('lunchroulette test').should be true
+  end
+  
+  it "should not match empty lunch messages" do
+    @harness.match?('lunchroulette').should be false
+  end
+  
+  it "should reply for places it knows about" do
     @message.should_receive(:reply)
-    @lunch.execute(@message, 'w12')
+    @plugin.execute(@message, 'w1')
+  end
+  
+  it "should apologise for places it does not know about" do
+    @message.should_receive(:reply).with(/sorry/)
+    @plugin.execute(@message, 'guatemala')
   end
 end
