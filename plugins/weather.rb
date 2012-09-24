@@ -13,7 +13,7 @@ class Weather
     :salford => 33887
   }
   
-  match /weather (\w+)/
+  match /weather (.+)/
 
   def location_to_id(location)
     LOCATIONS[location.strip.downcase.to_sym]
@@ -24,7 +24,7 @@ class Weather
   end
   
   def execute(m, location)
-    response = JSON.parse(RestClient.get 'http://weather.yahooapis.com/forecastjson?w=#{location_id}')
+    response = JSON.parse(RestClient.get "http://weather.yahooapis.com/forecastjson?w=#{location_id}")
     celsius = f_to_c response['condition']['temperature']
     m.reply "#{m.user.nick}: #{response['condition']['text']}, #{celsius}°C"
   end
