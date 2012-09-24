@@ -24,6 +24,7 @@ class Weather
   end
   
   def execute(m, location)
+    location_id = location_to_id location
     response = JSON.parse(RestClient.get "http://weather.yahooapis.com/forecastjson?w=#{location_id}")
     celsius = f_to_c response['condition']['temperature']
     m.reply "#{m.user.nick}: #{response['condition']['text']}, #{celsius}°C"
