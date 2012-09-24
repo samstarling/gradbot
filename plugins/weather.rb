@@ -33,5 +33,6 @@ class Weather
       m.reply "#{m.user.nick}: #{response['condition']['text']}, #{celsius}C"
     else
       m.reply "#{m.user.nick}: I'm not aware of '#{location}'"
+    end
   end
 end
