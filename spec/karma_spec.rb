@@ -31,7 +31,7 @@ describe Karma do
     @karma.execute(@message)
   end
   
-  it "should reply for things that have no karma" do
+  it "should not reply for things that have no karma" do
     @karma.add_karma(@message, 'baby_jesus')
     @karma.remove_karma(@message, 'baby_jesus')
     @message.should_not_receive(:reply)
@@ -42,6 +42,19 @@ describe Karma do
     @karma.add_karma(@message, 'cats')
     @karma.add_karma(@message, 'CATS')
     @karma.karma[:cats].should == 2
+  end
+
+  it "should sort things in descending karma order" do
+    @karma.add_karma(@message, 'python')
+    @karma.add_karma(@message, 'python')
+    @karma.add_karma(@message, 'ruby')
+    @karma.add_karma(@message, 'ruby')
+    @karma.add_karma(@message, 'ruby')
+    @karma.add_karma(@message, 'java')
+    @message.should_receive(:reply).with('ruby has 3 karma')
+    @message.should_receive(:reply).with('python has 2 karma')
+    @message.should_receive(:reply).with('java has 1 karma')
+    @karma.execute(@message)
   end
 
   it "conflates things with the same karma score" do

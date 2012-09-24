@@ -17,10 +17,21 @@ class Karma
   def execute(m)
     load_hash
     @karma.sort_by {|key, value| value}
-    @karma.each do |k, v|
-      if v != 0
-        m.reply "#{k} has #{v} karma"
-      end
+    grouped = regroup_hash
+    grouped.each do |score, things|
+      possession = if things.size == 1 then "has" else "have" end
+      thing_list = to_sentence things
+      m.reply "#{thing_list} #{possession} #{score} karma"
+    end
+  end
+
+  def to_sentence things
+    if things.size == 1
+      things.join ", "
+    else
+      start = things[0..-2].join ", "
+      finish = things[-1]
+      "#{start} and #{finish}"
     end
   end
   
@@ -67,5 +78,18 @@ class Karma
     File.open(@@filepath, 'w+') do |f|
       Marshal.dump(@karma, f)
     end
+  end
+
+  def regroup_hash
+    regrouped = Hash.new
+    @karma.each do |thing, score|
+      if score != 0
+        if !regrouped.has_key? score
+          regrouped[score] = Array.new
+        end
+        regrouped[score] << thing
+      end
+    end
+    regrouped
   end
 end
