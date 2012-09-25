@@ -4,19 +4,19 @@ require 'json'
 
 class Karma
   include Cinch::Plugin
-  
+
   attr_reader :karma
-  
+
   @@filepath = ENV['karma_file'] || '/home/samstarling/temp/karma.marshal'
-  
+
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
   listen_to :connect
-  
+
   def execute(m)
     load_hash
-    @karma.sort_by {|key, value| value}
+    @karma.sort_by { |key, value| value }
     grouped = regroup_hash
     grouped.each do |score, things|
       possession = if things.size == 1 then "has" else "have" end
@@ -34,19 +34,20 @@ class Karma
       "#{start} and #{finish}"
     end
   end
-  
+
   def reset_karma
     @karma = Hash.new
     save_hash
   end
-  
+
   def add_karma(m, arg)
     arg.downcase!
     load_hash
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] += 1
     noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
-    m.reply "#{noise}! #{m.user.nick} gave more karma to \"#{arg}\". New karma: #{val}"
+    action = "#{m.user.nick} gave more karma to \"#{arg}\""
+    m.reply "#{noise}! #{action}. New karma: #{val}"
     save_hash
   end
 
@@ -56,7 +57,8 @@ class Karma
     @karma[arg.to_sym] ||= 0
     val = @karma[arg.to_sym] -= 1
     noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
-    m.reply "#{noise}. #{m.user.nick} took karma away from \"#{arg}\". New karma: #{val}."
+    action = "#{m.user.nick} took karma away from \"#{arg}\""
+    m.reply "#{noise}. #{action}. New karma: #{val}."
     save_hash
   end
 
