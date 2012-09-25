@@ -9,7 +9,7 @@ class CelebTracker
   
   attr_reader :celeb
   
-  @@filepath = ENV['celeb_file'] || '/users/simkid01/temp/celeb.marshal'
+  @@filepath = ENV['celeb_file'] || '/home/samstarling/temp/celeb.marshal'
   
   match /celeb/
   match /celeb (.+)/, method: :register_celeb, use_prefix: true
