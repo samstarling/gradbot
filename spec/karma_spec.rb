@@ -1,4 +1,4 @@
-require_relative '../plugins/karma.rb'
+require 'spec_helper'
 
 describe Karma do
   before(:each) do
