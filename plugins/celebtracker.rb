@@ -9,17 +9,27 @@ class CelebTracker
   
   attr_reader :celeb
   
-  @@filepath = ENV['celeb_file'] || '/home/samstarling/temp/celeb.marshal'
+  @@filepath = ENV['celeb_file'] || '/users/simkid01/temp/celeb.marshal'
   
-  match /celeb/
-  match /celeb (.+)/, method: :register_celeb, use_prefix: true
+  match /^!celeb$/, use_prefix: false
+  match /celeb ([\d]+)/, method: :list_leaderboard, use_prefix: true
+  match /celeb ([^\d][\w\s\d]+)/, method: :register_celeb, use_prefix: true
   listen_to :connect
   
   def execute(m)
     load_hash
+    m.reply "Type \"!celeb [celebrity name]\" to register a sighting or \"!celeb [number]\" to view [number] of leaderboard entries sorted by score"
+  end
+
+  def list_leaderboard(m, count)
+    load_hash
+    count=count.to_i
     arr = @celeb.sort_by {|key, value| value[1]}.reverse()
+    loop_count = 0;
     arr.each do |celeb, val|
+      break if (count <= loop_count)
       m.reply "#{titleise_name(celeb)} has been seen by \"#{human_readable_viewers(val[0])}\". #{titleise_name(celeb)} has a fame index of : #{val[1]}"
+      loop_count+=1
     end
   end
   
@@ -37,7 +47,7 @@ class CelebTracker
   end
 
   def calc_fame(celeb_name)
-    response = JSON.parse(RestClient.get "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{URI.escape(celeb_name.to_s)}")
+    response = JSON.parse(RestClient.get "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{URI.escape("\""+celeb_name.to_s+"\"")}")
     return response['responseData']['cursor']['estimatedResultCount'].to_i/1000
   end
 
