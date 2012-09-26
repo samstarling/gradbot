@@ -4,3 +4,10 @@ gradbot
 =======
 
 It's an IRC bot, simple.
+
+I'm also using it as a project for learning the following:
+
+* rspec
+* simplecov
+* capistrano
+* Travis
