@@ -10,20 +10,6 @@ class KarmaData
     load
   end
 
-  def load
-    if File.exists?(@filepath)
-      File.open(@filepath) do |f|
-        @data = Marshal.load(f)
-      end
-    else
-      @data = Hash.new
-      File.new(@filepath, 'w')
-      File.open(@filepath, 'w+') do |f|
-        Marshal.dump(@data, f)
-      end
-    end
-  end
-
   def save
     File.open(@filepath, 'w+') do |f|
       Marshal.dump(@data, f)
@@ -47,12 +33,26 @@ class KarmaData
     @data = Hash.new
     save
   end
+  
+  private
+  
+  def load
+    if File.exists?(@filepath)
+      File.open(@filepath) do |f|
+        @data = Marshal.load(f)
+      end
+    else
+      @data = Hash.new
+      File.new(@filepath, 'w')
+      File.open(@filepath, 'w+') do |f|
+        Marshal.dump(@data, f)
+      end
+    end
+  end
 end
 
 class Karma
   include Cinch::Plugin
-
-  attr_reader :karma
 
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
@@ -69,7 +69,6 @@ class Karma
   end
 
   def execute(m)
-    @data_source.load
     @data_source.data.sort_by { |key, value| value }
     grouped = @data_source.regroup
     grouped.each do |score, things|
@@ -95,7 +94,6 @@ class Karma
 
   def add_karma(m, arg)
     arg.downcase!
-    @data_source.load
     @data_source.data[arg.to_sym] ||= 0
     val = @data_source.data[arg.to_sym] += 1
     noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
@@ -106,7 +104,6 @@ class Karma
 
   def remove_karma(m, arg)
     arg.downcase!
-    @data_source.load
     @data_source.data[arg.to_sym] ||= 0
     val = @data_source.data[arg.to_sym] -= 1
     noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
