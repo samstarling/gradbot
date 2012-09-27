@@ -2,22 +2,76 @@ require 'rest-client'
 require 'cinch'
 require 'json'
 
+class KarmaData
+  attr_accessor :data 
+
+  def initialize
+    @filepath = ENV['karma_file'] || '/home/samstarling/temp/karma.marshal'
+    load
+  end
+
+  def load
+    if File.exists?(@filepath)
+      File.open(@filepath) do |f|
+        @data = Marshal.load(f)
+      end
+    else
+      @data = Hash.new
+      File.new(@filepath, 'w')
+      File.open(@filepath, 'w+') do |f|
+        Marshal.dump(@data, f)
+      end
+    end
+  end
+
+  def save
+    File.open(@filepath, 'w+') do |f|
+      Marshal.dump(@data, f)
+    end
+  end
+
+  def regroup
+    regrouped = Hash.new
+    @data.each do |thing, score|
+      if score != 0
+        if !regrouped.has_key? score
+          regrouped[score] = Array.new
+        end
+        regrouped[score] << thing
+      end
+    end
+    regrouped
+  end
+
+  def reset
+    @data = Hash.new
+    save
+  end
+end
+
 class Karma
   include Cinch::Plugin
 
   attr_reader :karma
 
-  @@filepath = ENV['karma_file'] || '/home/samstarling/temp/karma.marshal'
-
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
   listen_to :connect
+  listen_to :join, method: :startup
+
+  def startup
+    @data_source = KarmaData.new
+  end
+
+  def get_value thing
+    @data_source.data[thing]
+  end
 
   def execute(m)
-    load_hash
-    @karma.sort_by { |key, value| value }
-    grouped = regroup_hash
+    @data_source.load
+    @data_source.data.sort_by { |key, value| value }
+    grouped = @data_source.regroup
     grouped.each do |score, things|
       possession = if things.size == 1 then "has" else "have" end
       thing_list = to_sentence things
@@ -36,62 +90,28 @@ class Karma
   end
 
   def reset_karma
-    @karma = Hash.new
-    save_hash
+    @data_source.reset
   end
 
   def add_karma(m, arg)
     arg.downcase!
-    load_hash
-    @karma[arg.to_sym] ||= 0
-    val = @karma[arg.to_sym] += 1
+    @data_source.load
+    @data_source.data[arg.to_sym] ||= 0
+    val = @data_source.data[arg.to_sym] += 1
     noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
     action = "#{m.user.nick} gave more karma to \"#{arg}\""
     m.reply "#{noise}! #{action}. New karma: #{val}"
-    save_hash
+    @data_source.save
   end
 
   def remove_karma(m, arg)
     arg.downcase!
-    load_hash
-    @karma[arg.to_sym] ||= 0
-    val = @karma[arg.to_sym] -= 1
+    @data_source.load
+    @data_source.data[arg.to_sym] ||= 0
+    val = @data_source.data[arg.to_sym] -= 1
     noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
     action = "#{m.user.nick} took karma away from \"#{arg}\""
     m.reply "#{noise}. #{action}. New karma: #{val}."
-    save_hash
-  end
-
-  def load_hash
-    if File.exists?(@@filepath)
-      File.open(@@filepath) do |f|
-        @karma = Marshal.load(f)
-      end
-    else
-      @karma = Hash.new
-      File.new(@@filepath, 'w')
-      File.open(@@filepath, 'w+') do |f|
-        Marshal.dump(@karma, f)
-      end
-    end
-  end
-
-  def save_hash
-    File.open(@@filepath, 'w+') do |f|
-      Marshal.dump(@karma, f)
-    end
-  end
-
-  def regroup_hash
-    regrouped = Hash.new
-    @karma.each do |thing, score|
-      if score != 0
-        if !regrouped.has_key? score
-          regrouped[score] = Array.new
-        end
-        regrouped[score] << thing
-      end
-    end
-    regrouped
+    @data_source.save
   end
 end
