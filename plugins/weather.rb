@@ -1,6 +1,3 @@
-#!/bin/env ruby
-# encoding: utf-8
-
 require 'rest-client'
 require 'cinch'
 require 'json'

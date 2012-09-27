@@ -47,12 +47,9 @@ describe Karma do
   end
 
   it "should sort things in descending karma order" do
-    @karma.add_karma(@message, 'python')
-    @karma.add_karma(@message, 'python')
-    @karma.add_karma(@message, 'ruby')
-    @karma.add_karma(@message, 'ruby')
-    @karma.add_karma(@message, 'ruby')
-    @karma.add_karma(@message, 'java')
+    2.times { @karma.add_karma(@message, 'python') }
+    3.times { @karma.add_karma(@message, 'ruby') }
+    1.times { @karma.add_karma(@message, 'java') }
     @message.should_receive(:reply).with('ruby has 3 karma')
     @message.should_receive(:reply).with('python has 2 karma')
     @message.should_receive(:reply).with('java has 1 karma')
