@@ -11,7 +11,7 @@ class KarmaData
   end
 
   def save
-    File.open(@filepath, 'w+') do |f|
+    File.open(@filepath, 'w') do |f|
       Marshal.dump(@data, f)
     end
   end
@@ -20,10 +20,7 @@ class KarmaData
     regrouped = Hash.new
     @data.each do |thing, score|
       if score != 0
-        if !regrouped.has_key? score
-          regrouped[score] = Array.new
-        end
-        regrouped[score] << thing
+        (regrouped[score] ||= []) << thing
       end
     end
     regrouped
@@ -43,10 +40,7 @@ class KarmaData
       end
     else
       @data = Hash.new
-      File.new(@filepath, 'w')
-      File.open(@filepath, 'w+') do |f|
-        Marshal.dump(@data, f)
-      end
+      save
     end
   end
 end
@@ -69,9 +63,7 @@ class Karma
   end
 
   def execute(m)
-    @data_source.data.sort_by { |key, value| value }
-    grouped = @data_source.regroup
-    grouped.each do |score, things|
+    @data_source.regroup.each do |score, things|
       possession = if things.size == 1 then "has" else "have" end
       thing_list = to_sentence things
       m.reply "#{thing_list} #{possession} #{score} karma"
