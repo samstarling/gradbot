@@ -1,5 +1,4 @@
-require_relative '../plugins/cat.rb'
-require 'rest-client'
+require 'spec_helper'
 
 describe Cat do
   before(:each) do

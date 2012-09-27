@@ -1,5 +1,5 @@
 desc "Deploy the gradbot!"
-task :deploy, :hosts => "samstarling.webfactional.com" do
+task :deploy, :hosts => "samstarling@samstarling.webfactional.com" do
   run "cd /home/samstarling/apps/gradbot && ruby1.9 server.rb stop"
   run "cd /home/samstarling/apps/gradbot && git reset --hard HEAD"
   run "cd /home/samstarling/apps/gradbot && git pull"

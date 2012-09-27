@@ -1,28 +1,30 @@
-require_relative '../plugins/karma.rb'
+require 'spec_helper'
 
 describe Karma do
   before(:each) do
     @config = double('config').as_null_object
     @message = double('message').as_null_object
     @karma = Karma.new(@config)
+    @karma.startup
     @karma.reset_karma
   end
   
   it "should add karma to something" do
     @karma.add_karma(@message, 'cats')
-    @karma.karma[:cats].should == 1
+    @karma.get_value(:cats).should == 1
   end
   
   it "should remove karma from something" do
     @karma.remove_karma(@message, 'dogs')
-    @karma.karma[:dogs].should == -1
+    @karma.get_value(:dogs).should == -1
   end
   
   it "should persist the karma" do
     @karma.add_karma(@message, 'houmous')
     @karma = Karma.new(@config)
+    @karma.startup
     @karma.add_karma(@message, 'houmous')
-    @karma.karma[:houmous].should == 2
+    @karma.get_value(:houmous).should == 2
   end
   
   it "should reply with the karma things have" do
@@ -41,7 +43,7 @@ describe Karma do
   it "should be case insensitive" do
     @karma.add_karma(@message, 'cats')
     @karma.add_karma(@message, 'CATS')
-    @karma.karma[:cats].should == 2
+    @karma.get_value(:cats).should == 2
   end
 
   it "should sort things in descending karma order" do

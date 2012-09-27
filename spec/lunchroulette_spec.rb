@@ -1,4 +1,3 @@
-require_relative '../plugins/lunchroulette'
 require 'spec_helper'
 
 describe LunchRoulette do
