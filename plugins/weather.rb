@@ -1,5 +1,4 @@
 require 'rest-client'
-require 'cinch'
 require 'json'
 
 class Weather

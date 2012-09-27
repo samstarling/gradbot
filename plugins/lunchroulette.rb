@@ -1,5 +1,3 @@
-require 'cinch'
-
 class LunchRoulette
   include Cinch::Plugin
 

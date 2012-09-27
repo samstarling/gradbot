@@ -19,9 +19,7 @@ class KarmaData
   def regroup
     regrouped = Hash.new
     @data.each do |thing, score|
-      if score != 0
-        (regrouped[score] ||= []) << thing
-      end
+      (regrouped[score] ||= []) << thing if score != 0
     end
     regrouped
   end

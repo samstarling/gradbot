@@ -1,5 +1,6 @@
 require 'rest-client'
 require 'simplecov'
+require 'cinch'
 SimpleCov.start
 
 require_relative '../plugins/cat'

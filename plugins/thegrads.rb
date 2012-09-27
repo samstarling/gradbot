@@ -1,5 +1,3 @@
-require 'cinch'
-
 class TheGrads
   include Cinch::Plugin
 
