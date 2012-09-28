@@ -3,6 +3,22 @@ require 'json'
 require 'set'
 require 'uri'
 
+class GoogleClient
+  BASE_URL = "http://ajax.googleapis.com/ajax/services/search/web"
+  
+  def self.get_result_count term
+    response = self.get_result term
+    response['responseData']['cursor']['estimatedResultCount'].to_i
+  end
+  
+  private
+  
+  def self.get_result term
+    safe_term = URI.escape(term)
+    JSON.parse(RestClient.get "#{BASE_URL}?v=1.0&q=#{term}")
+  end
+end
+
 class CelebTracker
   include Cinch::Plugin
   
@@ -46,8 +62,8 @@ class CelebTracker
   end
 
   def calc_fame(celeb_name)
-    response = JSON.parse(RestClient.get "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=#{URI.escape("\""+celeb_name.to_s+"\"")}")
-    return response['responseData']['cursor']['estimatedResultCount'].to_i/1000
+    number = GoogleClient.get_result_count "\"#{celeb_name}\""
+    number / 1000
   end
 
   def human_readable_viewers(viewer_set)
@@ -70,7 +86,6 @@ class CelebTracker
     end
     return name.strip()
   end
-
 
   def load_hash
     if File.exists?(@@filepath)
