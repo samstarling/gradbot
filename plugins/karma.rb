@@ -52,7 +52,7 @@ class Karma
   listen_to :connect
   listen_to :join, method: :startup
 
-  def startup
+  def startup(m=nil)
     @data_source = KarmaData.new
   end
 
