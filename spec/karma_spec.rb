@@ -85,3 +85,11 @@ describe Karma do
     @karma.get_value(:cats).should == 10
   end
 end
+
+describe KarmaData do
+  it "should start afresh when no file exists" do
+    @data = KarmaData.new
+    @data.remove_file
+    @data.data.should eq Hash.new
+  end
+end

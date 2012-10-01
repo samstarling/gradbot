@@ -10,6 +10,11 @@ class KarmaData
     load
   end
 
+  def remove_file
+    `rm #{@filepath}`
+    load
+  end
+
   def save
     File.open(@filepath, 'w') do |f|
       Marshal.dump(@data, f)
@@ -37,8 +42,7 @@ class KarmaData
         @data = Marshal.load(f)
       end
     else
-      @data = Hash.new
-      save
+      reset
     end
   end
 end
