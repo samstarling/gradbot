@@ -16,4 +16,13 @@ describe Weather do
     @message.should_receive(:reply).at_least(1).times
     @plugin.execute(@message, 'foo')
   end
+
+  it "should apologise for places it doesn't know about" do
+  end
+
+  it "should provide the weather for places it does know about" do
+  end
+
+  it "should convert farenheit to celcius" do
+  end
 end
