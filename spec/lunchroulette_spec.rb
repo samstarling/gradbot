@@ -21,6 +21,12 @@ describe LunchRoulette do
     @plugin.execute(@message, 'w1')
   end
   
+  it "should occasionally tell you for go to a swim" do
+    LunchVenueData.stub(:get).and_return('canal')
+    @message.should_receive(:reply).with(/canal/i)
+    @plugin.execute(@message, 'w1')
+  end
+  
   it "should apologise for places it does not know about" do
     @message.should_receive(:reply).with(/sorry/)
     @plugin.execute(@message, 'guatemala')
