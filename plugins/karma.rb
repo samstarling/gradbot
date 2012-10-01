@@ -49,6 +49,8 @@ class Karma
   match /karma/
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
+  match /([\w]+)\+=(\d+)/, method: :add_karma, use_prefix: false
+  match /([\w]+)-=(\d+)/, method: :add_karma, use_prefix: false
   listen_to :connect
   listen_to :join, method: :startup
 
@@ -82,22 +84,22 @@ class Karma
     @data_source.reset
   end
 
-  def add_karma(m, arg)
-    arg.downcase!
-    @data_source.data[arg.to_sym] ||= 0
-    val = @data_source.data[arg.to_sym] += 1
+  def add_karma(m, thing, count=1)
+    thing.downcase!
+    @data_source.data[thing.to_sym] ||= 0
+    val = @data_source.data[thing.to_sym] += count
     noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
-    action = "#{m.user.nick} gave more karma to \"#{arg}\""
+    action = "#{m.user.nick} gave more karma to \"#{thing}\""
     m.reply "#{noise}! #{action}. New karma: #{val}"
     @data_source.save
   end
 
-  def remove_karma(m, arg)
-    arg.downcase!
-    @data_source.data[arg.to_sym] ||= 0
-    val = @data_source.data[arg.to_sym] -= 1
+  def remove_karma(m, thing, count=1)
+    thing.downcase!
+    @data_source.data[thing.to_sym] ||= 0
+    val = @data_source.data[thing.to_sym] -= count
     noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
-    action = "#{m.user.nick} took karma away from \"#{arg}\""
+    action = "#{m.user.nick} took karma away from \"#{thing}\""
     m.reply "#{noise}. #{action}. New karma: #{val}."
     @data_source.save
   end

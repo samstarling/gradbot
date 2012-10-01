@@ -62,4 +62,9 @@ describe Karma do
     @message.should_receive(:reply).with('cats and dogs have 1 karma')
     @karma.execute(@message)
   end
+
+  it "should add more than 1 karma point to things" do
+    @karma.add_karma(@message, 'cats', 10)
+    @karma.get_value(:cats).should == 10
+  end
 end
