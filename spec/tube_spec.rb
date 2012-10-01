@@ -8,8 +8,24 @@ describe TubeStatus do
     @message = double('message')
   end
 
-  it "should reply to !tube" do
+  it "should reply to generic tube requests" do
     @harness.match?('!tube').should be true
+  end
+
+  it "should reply to requests for a specific line" do
+    @harness.match?('!tube central').should be true
+  end
+
+  it "should respond with the status of known lines" do
+    RestClient.stub(:get).and_return(load_fixture('valid-tube.json'))
+    @message.should_receive(:reply).with(/good service/i)
+    @plugin.execute(@message, 'foo')
+  end
+
+  it "should respond appropriately for unknown lines" do
+    RestClient.stub(:get).and_return(load_fixture('invalid-tube.json'))
+    @message.should_receive(:reply).with(/unrecognised lines value/i)
+    @plugin.execute(@message, 'foo')
   end
   
   it "should not reply to messages that don't contain tube" do
