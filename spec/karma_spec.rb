@@ -5,8 +5,25 @@ describe Karma do
     @config = double('config').as_null_object
     @message = double('message').as_null_object
     @karma = Karma.new(@config)
+    @harness = TestHarness.new(@karma)
     @karma.startup
     @karma.reset_karma
+  end
+
+  it "should match additions of karma" do
+    @harness.match?('foo++').should be true
+  end
+
+  it "should match subtractions of karma" do
+    @harness.match?('foo--').should be true
+  end
+
+  it "should match positive quantities" do
+    @harness.match?('foo+=100').should be true
+  end
+
+  it "should match negative quantities" do
+    @harness.match?('bar-=100').should be true
   end
   
   it "should add karma to something" do

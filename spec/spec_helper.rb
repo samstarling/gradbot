@@ -22,7 +22,9 @@ class TestHarness
   
   def match msg
     @bot.handlers.each do |h|
-      if h.pattern.pattern.match msg
+      matches = h.pattern.pattern.match msg
+      is_message = h.event == :message
+      if matches && is_message
         return h
       end
     end

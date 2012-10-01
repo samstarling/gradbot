@@ -50,7 +50,7 @@ class Karma
   match /([\w]+)\+\+/, method: :add_karma, use_prefix: false
   match /([\w]+)--/, method: :remove_karma, use_prefix: false
   match /([\w]+)\+=(\d+)/, method: :add_karma, use_prefix: false
-  match /([\w]+)-=(\d+)/, method: :add_karma, use_prefix: false
+  match /([\w]+)-=(\d+)/, method: :remove_karma, use_prefix: false
   listen_to :connect
   listen_to :join, method: :startup
 
