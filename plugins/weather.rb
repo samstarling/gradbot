@@ -13,14 +13,6 @@ class Weather
 
   match /weather (.+)/
 
-  def location_to_id(location)
-    LOCATIONS[location.strip.downcase.to_sym] || nil
-  end
-
-  def f_to_c f
-    ((Integer(f) - 32) * (5.0 / 9)).to_i
-  end
-
   def execute(m, location)
     location_id = location_to_id location
     if location_id
@@ -31,5 +23,15 @@ class Weather
     else
       m.reply "Sorry #{m.user.nick}, I'm not aware of '#{location}'"
     end
+  end
+
+  private
+
+  def location_to_id(location)
+    LOCATIONS[location.strip.downcase.to_sym] || nil
+  end
+
+  def f_to_c f
+    ((Integer(f) - 32) * (5.0 / 9)).to_i
   end
 end

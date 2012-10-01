@@ -63,7 +63,7 @@ class Karma
   end
 
   def get_value thing
-    @data_source.data[thing]
+    @data_source.data[thing.downcase.to_sym] || 0
   end
 
   def execute(m)
@@ -80,10 +80,6 @@ class Karma
     action = "#{m.user.nick} gave more karma to \"#{thing}\""
     m.reply "#{noise}! #{action}. New karma: #{val}"
   end
-  
-  def reset_karma
-    @data_source.reset
-  end
 
   def remove_karma(m, thing, count=1)
     val = modify_karma m, thing, -count.to_i
@@ -91,9 +87,13 @@ class Karma
     action = "#{m.user.nick} took karma away from \"#{thing}\""
     m.reply "#{noise}. #{action}. New karma: #{val}."
   end
-  
+
+  def reset_karma
+    @data_source.reset
+  end
+
   private
-  
+
   def to_sentence things
     if things.size == 1
       things.join ", "
@@ -105,10 +105,7 @@ class Karma
   end
   
   def modify_karma(m, thing, count)
-    thing.downcase!
-    @data_source.data[thing.to_sym] ||= 0
-    val = @data_source.data[thing.to_sym] += count
+    @data_source.data[thing.downcase.to_sym] = @data_source.data[thing.downcase.to_sym].to_i + count
     @data_source.save
-    return val
   end
 end
