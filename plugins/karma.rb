@@ -87,24 +87,26 @@ class Karma
   def reset_karma
     @data_source.reset
   end
-
-  def add_karma(m, thing, count=1)
+  
+  def modify_karma(m, thing, count)
     thing.downcase!
     @data_source.data[thing.to_sym] ||= 0
-    val = @data_source.data[thing.to_sym] += count.to_i
-    noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
+    val = @data_source.data[thing.to_sym] += count
+    @data_source.save
+    return val
+  end
+
+  def add_karma(m, thing, count=1)
+    val = modify_karma m, thing, count.to_i
+    noise = ["Boom", "Awesome", "Mint", "Yay"].sample
     action = "#{m.user.nick} gave more karma to \"#{thing}\""
     m.reply "#{noise}! #{action}. New karma: #{val}"
-    @data_source.save
   end
 
   def remove_karma(m, thing, count=1)
-    thing.downcase!
-    @data_source.data[thing.to_sym] ||= 0
-    val = @data_source.data[thing.to_sym] -= count.to_i
-    noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
+    val = modify_karma m, thing, -count.to_i
+    noise = ["Oh dear", "O noes", "Erk", "Sadface"].sample
     action = "#{m.user.nick} took karma away from \"#{thing}\""
     m.reply "#{noise}. #{action}. New karma: #{val}."
-    @data_source.save
   end
 end
