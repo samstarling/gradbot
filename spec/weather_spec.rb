@@ -12,17 +12,20 @@ describe Weather do
     @harness.match?('!weather salford').should be true
   end
 
-  it "should reply to messages" do
-    @message.should_receive(:reply).at_least(1).times
+  it "should apologise for places it doesn't know about" do
+    @message.should_receive(:reply).with(/sorry/i)
     @plugin.execute(@message, 'foo')
   end
 
-  it "should apologise for places it doesn't know about" do
-  end
-
   it "should provide the weather for places it does know about" do
+    RestClient.stub(:get).and_return(load_fixture('weather.json'))
+    @message.should_receive(:reply).with(/Light Rain Shower/)
+    @plugin.execute(@message, 'london')
   end
 
   it "should convert farenheit to celcius" do
+    RestClient.stub(:get).and_return(load_fixture('weather.json'))
+    @message.should_receive(:reply).with(/27C/)
+    @plugin.execute(@message, 'london')
   end
 end

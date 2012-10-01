@@ -18,7 +18,7 @@ class Weather
   end
 
   def f_to_c f
-    ((Integer(f) - 32) * (5.0 / 9)).floor
+    ((Integer(f) - 32) * (5.0 / 9)).to_i
   end
 
   def execute(m, location)
@@ -29,7 +29,7 @@ class Weather
       celsius = f_to_c response['condition']['temperature']
       m.reply "#{m.user.nick}: #{response['condition']['text']}, #{celsius}C"
     else
-      m.reply "#{m.user.nick}: I'm not aware of '#{location}'"
+      m.reply "Sorry #{m.user.nick}, I'm not aware of '#{location}'"
     end
   end
 end

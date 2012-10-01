@@ -45,3 +45,8 @@ class TestHarness
     end
   end
 end
+
+def load_fixture filename
+  file = File.open(File.join(File.dirname(__FILE__), "fixtures/#{filename}"), "rb")
+  contents = file.read
+end
