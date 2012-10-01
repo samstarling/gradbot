@@ -9,11 +9,11 @@ describe LunchRoulette do
   end
   
   it "should match lunch messages" do
-    @harness.match?('lunchroulette test').should be true
+    @harness.match?('!lunchroulette test').should be true
   end
   
   it "should not match empty lunch messages" do
-    @harness.match?('lunchroulette').should be false
+    @harness.match?('!lunchroulette').should be false
   end
   
   it "should reply for places it knows about" do

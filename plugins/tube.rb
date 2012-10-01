@@ -9,7 +9,7 @@ class TubeStatus
 
   def execute(m)
     stations = 'central,circle,hammersmithcity,victoria'
-    url = 'http://api.tubeupdates.com/?method=get.status&lines=#{stations}'
+    url = "http://api.tubeupdates.com/?method=get.status&lines=#{stations}"
     response = JSON.parse(RestClient.get url)
     parsed = response['response']
     if response['response']['lines']
