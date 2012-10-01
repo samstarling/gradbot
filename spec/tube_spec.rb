@@ -22,19 +22,19 @@ describe TubeStatus do
   end
 
   it "should respond with the status of known lines" do
-    RestClient.stub(:get).and_return(load_fixture('valid-tube.json'))
+    RestClient.stub(:get).and_return(load_fixture('tube/valid-tube.json'))
     @message.should_receive(:reply).with(/good service/i).at_most(1).times
     @plugin.execute(@message, 'foo')
   end
 
   it "should respond appropriately for unknown lines" do
-    RestClient.stub(:get).and_return(load_fixture('invalid-tube.json'))
+    RestClient.stub(:get).and_return(load_fixture('tube/invalid-tube.json'))
     @message.should_receive(:reply).with(/unrecognised lines value/i)
     @plugin.execute(@message, 'foo')
   end
 
   it "should report epic failures" do
-    RestClient.stub(:get).and_return(load_fixture('totally-invalid-tube.json'))
+    RestClient.stub(:get).and_return(load_fixture('tube/totally-invalid-tube.json'))
     @message.should_receive(:reply).with(/epic tube fail/i)
     @plugin.execute(@message, 'foo')
   end

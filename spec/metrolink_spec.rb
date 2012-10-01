@@ -14,7 +14,7 @@ describe "Metrolink" do
   end
 
   it "should tell me how the trams are running" do
-    RestClient.stub(:get).and_return(load_fixture('metrolinkstatus.html'))
+    RestClient.stub(:get).and_return(load_fixture('metrolink/metrolink-status.html'))
     @message.should_receive(:reply).with(/Normal Service/i)
     @plugin.execute(@message)
   end

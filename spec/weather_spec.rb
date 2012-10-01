@@ -18,13 +18,13 @@ describe Weather do
   end
 
   it "should provide the weather for places it does know about" do
-    RestClient.stub(:get).and_return(load_fixture('weather.json'))
+    RestClient.stub(:get).and_return(load_fixture('weather/weather.json'))
     @message.should_receive(:reply).with(/Light Rain Shower/)
     @plugin.execute(@message, 'london')
   end
 
   it "should convert farenheit to celcius" do
-    RestClient.stub(:get).and_return(load_fixture('weather.json'))
+    RestClient.stub(:get).and_return(load_fixture('weather/weather.json'))
     @message.should_receive(:reply).with(/27C/)
     @plugin.execute(@message, 'london')
   end
