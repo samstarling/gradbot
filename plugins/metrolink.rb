@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'nokogiri/html'
+require 'nokogiri'
 
 class Metrolink
   include Cinch::Plugin
