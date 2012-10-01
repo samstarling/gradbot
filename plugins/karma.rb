@@ -87,7 +87,7 @@ class Karma
   def add_karma(m, thing, count=1)
     thing.downcase!
     @data_source.data[thing.to_sym] ||= 0
-    val = @data_source.data[thing.to_sym] += count
+    val = @data_source.data[thing.to_sym] += count.to_i
     noise = ["Boom", "Ping", "Bam", "Smash", "Wahey", "Yay"].sample
     action = "#{m.user.nick} gave more karma to \"#{thing}\""
     m.reply "#{noise}! #{action}. New karma: #{val}"
@@ -97,7 +97,7 @@ class Karma
   def remove_karma(m, thing, count=1)
     thing.downcase!
     @data_source.data[thing.to_sym] ||= 0
-    val = @data_source.data[thing.to_sym] -= count
+    val = @data_source.data[thing.to_sym] -= count.to_i
     noise = ["Oh dear", "O noes", "Erk", "Oops", "Sadface"].sample
     action = "#{m.user.nick} took karma away from \"#{thing}\""
     m.reply "#{noise}. #{action}. New karma: #{val}."
