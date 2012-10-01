@@ -74,6 +74,26 @@ class Karma
     end
   end
 
+  def add_karma(m, thing, count=1)
+    val = modify_karma m, thing, count.to_i
+    noise = ["Boom", "Awesome", "Mint", "Yay"].sample
+    action = "#{m.user.nick} gave more karma to \"#{thing}\""
+    m.reply "#{noise}! #{action}. New karma: #{val}"
+  end
+  
+  def reset_karma
+    @data_source.reset
+  end
+
+  def remove_karma(m, thing, count=1)
+    val = modify_karma m, thing, -count.to_i
+    noise = ["Oh dear", "O noes", "Erk", "Sadface"].sample
+    action = "#{m.user.nick} took karma away from \"#{thing}\""
+    m.reply "#{noise}. #{action}. New karma: #{val}."
+  end
+  
+  private
+  
   def to_sentence things
     if things.size == 1
       things.join ", "
@@ -83,10 +103,6 @@ class Karma
       "#{start} and #{finish}"
     end
   end
-
-  def reset_karma
-    @data_source.reset
-  end
   
   def modify_karma(m, thing, count)
     thing.downcase!
@@ -94,19 +110,5 @@ class Karma
     val = @data_source.data[thing.to_sym] += count
     @data_source.save
     return val
-  end
-
-  def add_karma(m, thing, count=1)
-    val = modify_karma m, thing, count.to_i
-    noise = ["Boom", "Awesome", "Mint", "Yay"].sample
-    action = "#{m.user.nick} gave more karma to \"#{thing}\""
-    m.reply "#{noise}! #{action}. New karma: #{val}"
-  end
-
-  def remove_karma(m, thing, count=1)
-    val = modify_karma m, thing, -count.to_i
-    noise = ["Oh dear", "O noes", "Erk", "Sadface"].sample
-    action = "#{m.user.nick} took karma away from \"#{thing}\""
-    m.reply "#{noise}. #{action}. New karma: #{val}."
   end
 end
