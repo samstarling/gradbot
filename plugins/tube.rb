@@ -5,8 +5,8 @@ require 'htmlentities'
 class TubeStatus
   include Cinch::Plugin
 
-  match /tube/
-  match /tube (\w+)/
+  match /^!tube$/, use_prefix: false
+  match /^!tube (\w+)$/, use_prefix: false
 
   DEFAULT_STATIONS = 'central,circle,hammersmithcity,victoria'
 

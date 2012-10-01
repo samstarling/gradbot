@@ -18,7 +18,7 @@ describe TubeStatus do
 
   it "should respond with the status of known lines" do
     RestClient.stub(:get).and_return(load_fixture('valid-tube.json'))
-    @message.should_receive(:reply).with(/good service/i)
+    @message.should_receive(:reply).with(/good service/i).at_most(1).times
     @plugin.execute(@message, 'foo')
   end
 
