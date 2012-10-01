@@ -8,6 +8,11 @@ describe TubeStatus do
     @message = double('message')
   end
 
+  it "should reply to messages" do
+    @message.should_receive(:reply).at_least(1).times
+    @plugin.execute(@message)
+  end
+
   it "should reply to generic tube requests" do
     @harness.match?('!tube').should be true
   end
@@ -27,13 +32,14 @@ describe TubeStatus do
     @message.should_receive(:reply).with(/unrecognised lines value/i)
     @plugin.execute(@message, 'foo')
   end
-  
-  it "should not reply to messages that don't contain tube" do
-    @harness.match?('i was on the tube').should be false
+
+  it "should report epic failures" do
+    RestClient.stub(:get).and_return(load_fixture('totally-invalid-tube.json'))
+    @message.should_receive(:reply).with(/epic tube fail/i)
+    @plugin.execute(@message, 'foo')
   end
 
-  it "should reply to messages" do
-    @message.should_receive(:reply).at_least(1).times
-    @plugin.execute(@message)
+  it "should not reply to messages that don't contain tube" do
+    @harness.match?('i was on the tube').should be false
   end
 end

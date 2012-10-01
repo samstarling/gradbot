@@ -14,12 +14,12 @@ class TubeStatus
     url = "http://api.tubeupdates.com/?method=get.status&lines=#{stations}"
     response = JSON.parse(RestClient.get url)
     parsed = response['response']
-    if response['response']['lines']
+    if response['response'] && response['response']['lines']
       response['response']['lines'].each do |line|
         status = "#{line['name']} - #{line['status']}\n"
         m.reply HTMLEntities.new.decode(status)
       end
-    elsif response['response']['error']
+    elsif response['response'] && response['response']['error']
       m.reply "Error: #{response['response']['error']}"
     else
       m.reply 'Epic tube fail'
