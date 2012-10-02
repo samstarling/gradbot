@@ -15,7 +15,7 @@ class GoogleClient
   
   def self.get_result term
     safe_term = URI.escape(term)
-    JSON.parse(RestClient.get "#{BASE_URL}?v=1.0&q=#{term}")
+    JSON.parse(RestClient.get "#{BASE_URL}?v=1.0&q=%22#{term}%22")
   end
 end
 
@@ -62,7 +62,7 @@ class CelebTracker
   end
 
   def calc_fame(celeb_name)
-    number = GoogleClient.get_result_count "\"#{celeb_name}\""
+    number = GoogleClient.get_result_count celeb_name
     number / 1000
   end
 
