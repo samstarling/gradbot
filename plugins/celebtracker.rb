@@ -7,14 +7,14 @@ class GoogleClient
   BASE_URL = "http://ajax.googleapis.com/ajax/services/search/web"
   
   def self.get_result_count term
-    response = self.get_result term
+    response = self.get_result "\"#{term}\""
     response['responseData']['cursor']['estimatedResultCount'].to_i
   end
   
   private
   
   def self.get_result term
-    safe_term = "\"#{URI.escape(term)}\""
+    safe_term = "#{URI.escape(term)}
     JSON.parse(RestClient.get "#{BASE_URL}?v=1.0&q=#{safe_term}")
   end
 end
