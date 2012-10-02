@@ -107,5 +107,6 @@ class Karma
   def modify_karma(m, thing, count)
     @data_source.data[thing.downcase.to_sym] = @data_source.data[thing.downcase.to_sym].to_i + count
     @data_source.save
+    return @data_source.data[thing.downcase.to_sym]
   end
 end
