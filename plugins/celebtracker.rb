@@ -14,7 +14,7 @@ class GoogleClient
   private
   
   def self.get_result term
-    safe_term = "#{URI.escape(term)}
+    safe_term = URI.escape(term)
     JSON.parse(RestClient.get "#{BASE_URL}?v=1.0&q=#{safe_term}")
   end
 end
