@@ -29,11 +29,27 @@ class CelebTracker
   match /^!celeb$/, use_prefix: false
   match /celeb ([\d]+)/, method: :list_leaderboard, use_prefix: true
   match /celeb ([^\d][\w\s\d]+)/, method: :register_celeb, use_prefix: true
-  listen_to :connect
+  listen_to :nick
   
   def execute(m)
     load_hash
     m.reply "Type \"!celeb [celebrity name]\" to register a sighting or \"!celeb [number]\" to view [number] of leaderboard entries sorted by score"
+  end
+
+  def listen(m)
+    # Updates entries for a user when they change their nick
+    old_nick = m.user.last_nick
+    new_nick = m.user.nick
+    load_hash
+    @celeb.each do |celeb, val|
+      val[0].to_a.each do |viewed_by|
+        if viewed_by == old_nick
+          val[0].delete(old_nick)
+          val[0].add(new_nick)
+        end
+      end
+    end
+    save_hash
   end
 
   def list_leaderboard(m, count)
