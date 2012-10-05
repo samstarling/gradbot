@@ -15,7 +15,8 @@ bot = Cinch::Bot.new do
       LunchRoulette,
       Weather,
       CelebTracker,
-      Metrolink
+      Metrolink,
+      Anonymous
     ]
     c.ssl.use = true
     c.ssl.verify = false
