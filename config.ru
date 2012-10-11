@@ -1,3 +1,3 @@
 require 'sinatra'
-require './myapp'
+require './web'
 run Sinatra::Application
