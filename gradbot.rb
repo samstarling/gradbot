@@ -16,6 +16,7 @@ bot = Cinch::Bot.new do
       Weather,
       CelebTracker,
       Metrolink,
+      News,
       Anonymous
     ]
     c.ssl.use = true
