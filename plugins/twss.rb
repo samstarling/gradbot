@@ -7,6 +7,7 @@ class ThatsWhatSheSaid
 
   def twss(m, *args)
     if TWSS(m.message)
+      sleep 1
       m.reply "#{m.user.nick}: That's what she said!"
     end
   end
