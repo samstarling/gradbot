@@ -8,5 +8,6 @@ gem 'nokogiri'
 gem 'rspec'
 gem 'capistrano'
 gem 'sinatra'
+gem 'twss'
 
 gem 'simplecov', :require => false, :group => :test

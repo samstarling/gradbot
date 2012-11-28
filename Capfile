@@ -5,5 +5,6 @@ task :deploy, :hosts => "samstarling@samstarling.webfactional.com" do
   run "cd /home/samstarling/apps/gradbot && git pull"
   run "cd /home/samstarling/apps/gradbot && ruby1.9 server.rb start"
   status = capture "cd /home/samstarling/apps/gradbot && ruby1.9 server.rb status"
+  run "/home/samstarling/webapps/gradbot/bin/restart"
   puts status
 end
