@@ -18,7 +18,7 @@ bot = Cinch::Bot.new do
       Metrolink,
       News,
       Anonymous,
-      TWSS
+      ThatsWhatSheSaid
     ]
     c.ssl.use = true
     c.ssl.verify = false

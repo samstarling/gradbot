@@ -1,6 +1,6 @@
 require 'twss'
 
-class TWSS
+class ThatsWhatSheSaid
   include Cinch::Plugin
 
   listen_to :message, :method => :twss
