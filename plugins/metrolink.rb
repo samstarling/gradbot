@@ -7,7 +7,7 @@ class Metrolink
   match /tram/
 
   def execute(m)
-    url = "http://www.metrolink.co.uk/pages/news.aspx?serviceID=39"
+    url = "http://www.metrolink.co.uk/pages/news.aspx?serviceID=55"
     response = Nokogiri::HTML.parse(RestClient.get(url))
     heading = response.css("h2.pageHeading").first.text
     m.reply heading
