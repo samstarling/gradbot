@@ -17,7 +17,8 @@ bot = Cinch::Bot.new do
       CelebTracker,
       Metrolink,
       News,
-      Anonymous
+      Anonymous,
+      Nick
     ]
     c.ssl.use = true
     c.ssl.verify = false

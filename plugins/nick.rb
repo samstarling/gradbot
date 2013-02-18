@@ -1,4 +1,4 @@
-class News
+class Nick
   include Cinch::Plugin
 
   match /nick (\w+)/
