@@ -18,7 +18,8 @@ bot = Cinch::Bot.new do
       Metrolink,
       News,
       Anonymous,
-      Nick
+      Nick,
+      Kicker
     ]
     c.ssl.use = true
     c.ssl.verify = false
