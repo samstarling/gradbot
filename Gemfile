@@ -10,4 +10,5 @@ gem 'capistrano'
 gem 'sinatra'
 gem 'twss'
 
+gem 'coveralls', require: false
 gem 'simplecov', :require => false, :group => :test

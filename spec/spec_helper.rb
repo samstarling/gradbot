@@ -1,6 +1,8 @@
 require 'rest-client'
 require 'simplecov'
 require 'cinch'
+require 'coveralls'
+Coveralls.wear!
 SimpleCov.start
 
 require_relative '../plugins/cat'
