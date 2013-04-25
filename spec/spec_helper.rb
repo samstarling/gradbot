@@ -5,14 +5,7 @@ require 'coveralls'
 Coveralls.wear!
 SimpleCov.start
 
-require_relative '../plugins/cat'
-require_relative '../plugins/celebtracker'
-require_relative '../plugins/karma'
-require_relative '../plugins/lunchroulette'
-require_relative '../plugins/metrolink'
-require_relative '../plugins/thegrads'
-require_relative '../plugins/tube'
-require_relative '../plugins/weather'
+Dir[File.dirname(__FILE__) + '/../plugins/*.rb'].each {|file| require file }
 
 ENV['karma_file'] = '/tmp/karma'
 
