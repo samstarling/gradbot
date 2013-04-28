@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'cinch'
 gem 'daemons'
@@ -11,4 +11,4 @@ gem 'sinatra'
 gem 'twss'
 
 gem 'coveralls', require: false
-gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', :group => :test

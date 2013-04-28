@@ -1,9 +1,9 @@
-require 'rest-client'
 require 'simplecov'
+SimpleCov.start 'rails'
+require 'rest-client'
 require 'cinch'
 require 'coveralls'
 Coveralls.wear!
-SimpleCov.start
 
 Dir[File.dirname(__FILE__) + '/../plugins/*.rb'].each {|file| require file }
 
